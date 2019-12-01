@@ -1,0 +1,13 @@
+C:\Users\Kasztelan\source\repos\SepiaDll\bin\x64\Debug\SepiaDll.dll
+C:\Users\Kasztelan\source\repos\SepiaDll\bin\x64\Debug\SepiaDll.pdb
+C:\Users\Kasztelan\source\repos\SepiaDll\obj\x64\Debug\SepiaDll.dll
+C:\Users\Kasztelan\source\repos\SepiaDll\obj\x64\Debug\SepiaDll.pdb
+H:\backup\SepiaDll\bin\x64\Debug\SepiaDll.dll
+H:\backup\SepiaDll\bin\x64\Debug\SepiaDll.pdb
+H:\backup\SepiaDll\obj\x64\Debug\SepiaDll.dll
+H:\backup\SepiaDll\obj\x64\Debug\SepiaDll.pdb
+H:\backup\SepiaDll\obj\x64\Debug\SepiaDll.csprojAssemblyReference.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\bin\x64\Debug\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\bin\x64\Debug\SepiaDll.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\x64\Debug\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\x64\Debug\SepiaDll.pdb

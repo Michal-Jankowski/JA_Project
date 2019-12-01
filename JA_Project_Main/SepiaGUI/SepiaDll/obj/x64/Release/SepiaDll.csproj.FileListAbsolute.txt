@@ -1,0 +1,4 @@
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\bin\x64\Release\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\x64\Release\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\bin\x64\Release\SepiaDll.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\x64\Release\SepiaDll.pdb
