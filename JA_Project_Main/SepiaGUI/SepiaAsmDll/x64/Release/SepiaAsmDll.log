@@ -1,0 +1,7 @@
+﻿     Creating library ..\SepiaGUI\bin\x64\Release\SepiaAsmDll.lib and object ..\SepiaGUI\bin\x64\Release\SepiaAsmDll.exp
+  Generating code
+  0 of 1 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  SepiaAsmDll.vcxproj -> C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaAsmDll\..\SepiaGUI\bin\x64\Release\SepiaAsmDll.dll
