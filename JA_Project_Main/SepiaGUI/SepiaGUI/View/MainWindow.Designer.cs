@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApp1
+﻿namespace SepiaApp
 {
-    partial class MainApp
+    partial class SepiaProgram
     {
         /// <summary>
         /// Required designer variable.
@@ -44,12 +44,12 @@
             this.ActiveThreadsComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.SepiaComboBox = new System.Windows.Forms.ComboBox();
+            this.SepiaTone = new System.Windows.Forms.Label();
             this.ConvertButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.LogRichTextBox = new System.Windows.Forms.RichTextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.ConvertImage = new System.Windows.Forms.PictureBox();
-            this.SepiaTone = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.InsertImage)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.threadsGroupBox.SuspendLayout();
@@ -67,7 +67,7 @@
             this.UploadImage.TabIndex = 0;
             this.UploadImage.Text = "Upload Image";
             this.UploadImage.UseVisualStyleBackColor = true;
-            this.UploadImage.Click += new System.EventHandler(this.uploadImageButton);
+            this.UploadImage.Click += new System.EventHandler(this.UploadImageButton);
             // 
             // uploadImageTextBox
             // 
@@ -197,7 +197,6 @@
             this.ActiveThreadsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ActiveThreadsComboBox.FormattingEnabled = true;
             this.ActiveThreadsComboBox.Items.AddRange(new object[] {
-            "0",
             "1",
             "2",
             "3",
@@ -344,6 +343,15 @@
             this.SepiaComboBox.Size = new System.Drawing.Size(121, 21);
             this.SepiaComboBox.TabIndex = 9;
             // 
+            // SepiaTone
+            // 
+            this.SepiaTone.AutoSize = true;
+            this.SepiaTone.Location = new System.Drawing.Point(6, 292);
+            this.SepiaTone.Name = "SepiaTone";
+            this.SepiaTone.Size = new System.Drawing.Size(59, 13);
+            this.SepiaTone.TabIndex = 9;
+            this.SepiaTone.Text = "SepiaTone";
+            // 
             // ConvertButton
             // 
             this.ConvertButton.Location = new System.Drawing.Point(135, 306);
@@ -352,7 +360,7 @@
             this.ConvertButton.TabIndex = 8;
             this.ConvertButton.Text = "Convert";
             this.ConvertButton.UseVisualStyleBackColor = true;
-            this.ConvertButton.Click += new System.EventHandler(this.convertImageButton);
+            this.ConvertButton.Click += new System.EventHandler(this.ConvertImageButton);
             // 
             // groupBox4
             // 
@@ -394,16 +402,7 @@
             this.ConvertImage.TabIndex = 0;
             this.ConvertImage.TabStop = false;
             // 
-            // SepiaTone
-            // 
-            this.SepiaTone.AutoSize = true;
-            this.SepiaTone.Location = new System.Drawing.Point(6, 292);
-            this.SepiaTone.Name = "SepiaTone";
-            this.SepiaTone.Size = new System.Drawing.Size(59, 13);
-            this.SepiaTone.TabIndex = 9;
-            this.SepiaTone.Text = "SepiaTone";
-            // 
-            // MainApp
+            // SepiaProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -418,9 +417,9 @@
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "MainApp";
+            this.Name = "SepiaProgram";
             this.Text = "MainApp";
-            this.Load += new System.EventHandler(this.windowLoad);
+            this.Load += new System.EventHandler(this.WindowLoad);
             ((System.ComponentModel.ISupportInitialize)(this.InsertImage)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

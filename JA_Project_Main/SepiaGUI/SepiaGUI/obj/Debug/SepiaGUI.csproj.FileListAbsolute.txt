@@ -22,3 +22,16 @@ H:\backup\SepiaGUI\obj\Debug\SepiaGUI.csproj.GenerateResource.cache
 H:\backup\SepiaGUI\obj\Debug\SepiaGUI.csproj.CopyComplete
 H:\backup\SepiaGUI\obj\Debug\SepiaGUI.exe
 H:\backup\SepiaGUI\obj\Debug\SepiaGUI.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Debug\SepiaGUI.exe.config
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Debug\SepiaGUI.exe
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Debug\SepiaGUI.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Debug\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Debug\SepiaDll.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.csprojAssemblyReference.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\WindowsFormsApp1.MainApp.resources
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.Properties.Resources.resources
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.csproj.GenerateResource.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.csproj.CoreCompileInputs.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.csproj.CopyComplete
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.exe
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Debug\SepiaGUI.pdb

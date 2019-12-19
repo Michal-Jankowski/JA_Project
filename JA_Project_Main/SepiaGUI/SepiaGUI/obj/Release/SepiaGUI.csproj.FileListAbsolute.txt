@@ -1,0 +1,12 @@
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Release\SepiaGUI.exe.config
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Release\SepiaGUI.exe
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Release\SepiaGUI.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Release\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\bin\Release\SepiaDll.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\WindowsFormsApp1.MainApp.resources
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\SepiaGUI.Properties.Resources.resources
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\SepiaGUI.csproj.GenerateResource.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\SepiaGUI.csproj.CoreCompileInputs.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\SepiaGUI.csproj.CopyComplete
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\SepiaGUI.exe
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaGUI\obj\Release\SepiaGUI.pdb
