@@ -1,0 +1,6 @@
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\bin\Debug\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\bin\Debug\SepiaDll.pdb
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\Debug\SepiaDll.csprojAssemblyReference.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\Debug\SepiaDll.csproj.CoreCompileInputs.cache
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\Debug\SepiaDll.dll
+C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaDll\obj\Debug\SepiaDll.pdb
