@@ -1,2 +1,5 @@
-﻿     Creating library ..\SepiaGUI\bin\x64\Debug\SepiaAsmDll.lib and object ..\SepiaGUI\bin\x64\Debug\SepiaAsmDll.exp
-  SepiaAsmDll.vcxproj -> C:\Users\Kasztelan\Desktop\JAProject\JA_Project\SepiaAsmDll\..\SepiaGUI\bin\x64\Debug\SepiaAsmDll.dll
+﻿  Assembling Source.asm...
+  pch.cpp
+  dllmain.cpp
+     Creating library ..\SepiaGUI\bin\x64\Debug\SepiaAsmDll.lib and object ..\SepiaGUI\bin\x64\Debug\SepiaAsmDll.exp
+  SepiaAsmDll.vcxproj -> E:\Studia\JAPROJEKT\JAProject\JA_Project\SepiaAsmDll\..\SepiaGUI\bin\x64\Debug\SepiaAsmDll.dll
