@@ -183,6 +183,11 @@
   <ItemGroup>
     <MASM Include="Source.asm" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SepiaDll\SepiaDll.csproj">
+      <Project>{1709f807-e6ac-4bf3-b513-de4900c0b4cd}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

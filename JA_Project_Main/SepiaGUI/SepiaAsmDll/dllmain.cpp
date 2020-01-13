@@ -1,4 +1,5 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
+// Utworzne automatycznie przez Visual Studio.
 #include "pch.h"
 
 BOOL APIENTRY DllMain( HMODULE hModule,

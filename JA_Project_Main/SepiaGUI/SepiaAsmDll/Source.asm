@@ -1,41 +1,48 @@
 
 ;Autor: Micha³ Jankowski
-; Dzieñ: 13.12.2019r.
+; Dzieñ:20.12.2019r.
 ; Przedmiot: Jêzyki Asemblerowe
 ; Temat: Efekt Sepii
 
  ; Changelog:
- ; v. 0.1  14/09/19r. Dodanie pliku asm 64 bitowym z prostym sprawdzeniem czy argumenty s¹ przesy³ane do pliku dll, pomyœlna kompilacja procedury
+ ; v. 0.1 23/10/19r. 
+ ; Dodanie pliku asm 64 bitowym z prostym sprawdzeniem czy argumenty s¹ przesy³ane do pliku dll, pomyœlna kompilacja procedury
  ;
- ; v. 0.2  21/09/19r. Wstawienie wstêpnych komentarzy do kodu w celu jego pó¿niejszego, lepszego zrozumienia. Analiza przesy³ania danych przez rejestry.
+ ; v. 0.2 24/10/19r.
+ ; Wstawienie wstêpnych komentarzy do kodu w celu jego pó¿niejszego, lepszego zrozumienia. Analiza przesy³ania danych przez rejestry.
  ;
- ; v. 0.2  13/10/19r. Rozpoczêcie implemenratji odcienie szaroœci w postaci procedury Sepia proc. Nieudane wyjœcie z procedury. 
+ ; v. 0.2  25/10/19r. 
+ ; Rozpoczêcie implemenratji odcienie szaroœci w postaci procedury Sepia proc. Nieudane wyjœcie z procedury. 
  ; przesy³anie parametrów przez odpowiednie rejestry.
  ;
- ; v. 0.4  18/10/19r. Funkcjonuj¹ca implementacja odcienie szaroœci w procedurze Sepia z wykorzystaniem 
+ ; v. 0.4  27/10/19r.
+ ; Funkcjonuj¹ca implementacja odcienie szaroœci w procedurze Sepia z wykorzystaniem 
  ; rejestrów 128 bitowych oraz pêtli average_loop. Jednoczesne przetwarzanie 2 pikseli. 
  ; dodanie dyrektywy .data w celu przechowywania sta³ych programu niezbêdnych do przesuwania sk³adowych pikseli
  ;
- ; v. 0.5  21/10/19r. Dodanie kolejnej pêtli toneloop w celu dokoñczenia algorytmu poprzez koloryzacje odpowiednich sk³adowych obrazu
+ ; v. 0.5  29/10/19r.
+ ; Dodanie kolejnej pêtli toneloop w celu dokoñczenia algorytmu poprzez koloryzacje odpowiednich sk³adowych obrazu
  ;
- ; v. 0.6  25/10/19r. Testowanie danych wejœciowych algorytmu dla ró¿nych obrazów i rozmiarów m.in. obrazów o rozmiarze 4k x 4k pikseli
+ ; v. 0.6 30/10/19r.
+ ; Testowanie danych wejœciowych algorytmu dla ró¿nych obrazów i rozmiarów m.in. obrazów o rozmiarze 4k x 4k pikseli
  ;
- ; v. 0.7  27/10/19r. Napotkanie problemu z niepoprawnym zliczaniem rozmiaru tablicy dla wieluw¹tków. Wprowadzenie równie¿ przedzia³ów 
+ ; v. 0.7  4/11/19r.
+ ; Napotkanie problemu z niepoprawnym zliczaniem rozmiaru tablicy dla wieluw¹tków. Wprowadzenie równie¿ przedzia³ów 
  ; dla przetwarzanych czêœci obrazu, w celu unikniêcia hazardu danych.
  ;
- ; v. 0.8  1/11/19r.  Naprawa b³êdu z poprzedniej wersji. Prze³o¿enie procedury na rejestry 256 bitowe ymm w celu wykorzystania mo¿liwoœci procesora
+ ; v. 0.8  10/11/19r.
+ ; Naprawa b³êdu z poprzedniej wersji. Prze³o¿enie procedury na rejestry 256 bitowe ymm w celu wykorzystania mo¿liwoœci procesora
  ; dodanie komentarzy do reszty niepokomentowanego kodu. Poprawa przejrzystoœci kodu poprzez jego odpowiednie oddzielenie
  ;
- ; v. 0.9  18/11/19r. Poprawa drobnych usterek w postaci z³ej wartoœci sta³ej w masce color_R_mask. Dodanie procedur
+ ; v. 0.9  4/21/19r.
+ ; Poprawa drobnych usterek w postaci z³ej wartoœci sta³ej w masce color_R_mask. Dodanie procedur
  ; DetectFeatureEDX oraz DetectFeatureECX w celu sprawdzenia ob³usigwanych procedur przez procesor oraz posiadanych rejestrów.
  ; dodanie komentarzy w asm poprzez dodanie opisu parrametrów wej. i wyj. zwracanych parametrów oraz celu wykonywania danych operacji w asemblerze
  ; poprawa przejrzystoœci kodu i odpowienie odstêpy komentarzy
  
- ; v 1.0  13/12/19r.
- ;
- ;
- ;
- ;
+ ; v. 1.0  12/01/19r.
+ ; Ostateczne sprawdzenie poprawnoœci algorytmu z za³o¿eniami oraz zwrócenie uwagi na odstêpy w kodzie.
+
 
  ; parametry wejœciowe dla funkcji wysokiego poziomou w C#
  ; Sepia(ptr, start, stop, toneValue)
@@ -45,6 +52,7 @@
  ; stop -> koniec przedzia³u dla tablicy obrazu, dla której dany w¹tek wykonuje obliczenia typu int
  ; toneValue -> wartoœæ wype³nienia sepii typu int
 
+
 												 ; Deklaracja sta³ych wykorzystywanych w celu maskowania odpowiednich wartoœci sk³dowych piksela R,G,B 
 .data
 divider_value dq   003000000030000h				 ; divider_value -> sta³a wartoœæ 3 zapisania w postaci maski w celu wykonania dzielenia wektorowego
@@ -53,29 +61,39 @@ color_R_mask dq    00ff000000ff0000h			 ; color_R_mask -> maska koloru czerwoneg
 .code
 
 												 ; procedura odpowiedzialna za przetwarzanie kolorowego obrazu do efektu sepii
-												 ;----------------------------------------------------------------------------
-												 ; parametry wejœciowe: przekazywane przez rejestry
-												 ; rcx -> adres obrazka
-												 ; rdx -> start przedzia³u tablicy
-												 ; r8 -> koniec przedzia³u tablicy
-												 ; r9 -> wspó³czynnik wype³nienia
-												 ;-----------------------------------------------------------------------------
+												 ;----------------------------------------------------------------------------------------------------------------------
+												 ; 1.parametry wejœciowe przekazywane przez rejestry #### 2.parametry w jêzyku wysokiego poziomu           
+												 ; 1.rcx											2. imagePtr  		Adres obrazka						                         																
+												 ; 1.rdx  											2. start			Start przedzia³u tablicy dla w¹tku
+												 ; 1.r8 											2. stop				Koniec przedzia³u tablicy dla w¹tku
+												 ; 1.r9  											2. tonveValue		Wspó³czynnik wype³nienia Sepii
+												 ; 1. qword ptr [rbp + 48]							2. depthValue		Wspó³czynnik g³êbii Sepii
 												 ; parametry wyjœciowe:
 												 ; void
+												 ;----------------------------------------------------------------------------------------------------------------------
+Sepia proc										 ; G³ówna procedura Sepia zajmuj¹ca siê konwersj¹ obrazka na odcienie szaroœci i wype³nienia sk³adowych piksela, aby otrzymaæ efekt Sepii
 
-Sepia proc									     ; poczatek procedury Sepia
-								           
+push rbp										 ; zachowanie rejestru rbp na stos 
+mov rbp, rsp									 ; zapis rejestru rsp do rbp.
+push rdi									     ; zachowanie rejestru rdi na stos
+push r12										 ; zachowanie rejestru r12 na stos
+push r13										 ; zachowanie rejestru r13 na stos
+push r14									     ; zachowanie rejestru r14 na stos
+push rbx										 ; zachowanie rejestru rbx na stos
+
+mov r14, qword ptr [rbp + 48]					 ; pobranie warotœci 5. parametru do rejestru r14 zawieraj¹cego wartoœæ g³êbii Sepii. Jest to parametr pobrany ze stosu
+
 mov r10, rcx									 ; ³adownie adresu obrazka do rcx, aby go zapamiêtaæ
 
 mov r11, rdx									 ; ³adowanie poczatku tablicy do r11 na póŸniejsze przetwarzanie tablicy
 
-mov rdi, r10								     ; przenesienie adresu tablicy pikseli obrazka do rejestru rdi (rejestr indeksowy), aby obliczyæ indeks od którego bêdziemy zliczaæ piksele
-
-add rdi, rdx								     ; dodanie przesuniecia zwiazanego z podzialem na watki do rejestru rdi, w rejestrze rdi aktualnie znajduje siê adres tablicy pikseli obrazka
-
 mov rcx, r8								         ; za³adowanie do rcx  koniec przedzia³u tablicy
 
 mov r12, r9										 ; za³adowanie wartoœci wype³nienia  sepii do rejrestru r12
+
+mov rdi, r10								     ; przenesienie adresu tablicy pikseli obrazka do rejestru rdi (rejestr indeksowy), aby obliczyæ indeks od którego bêdziemy zliczaæ piksele
+
+add rdi, rdx								     ; dodanie przesuniecia zwiazanego z podzialem na watki do rejestru rdi, w rejestrze rdi aktualnie znajduje siê adres tablicy pikseli obrazka
  
 sub rcx, rdx								     ; za³adowanie iloœci bitów do przetworzenia, czyli koniec przedzia³u  - poczatek przedzia³u  do rejstru rcx 
 
@@ -104,25 +122,26 @@ vcvtdq2ps ymm3, ymm1					         ; zamiana wartoœci dzielnika 3 (divider_value)
 
 average_loop:									 ; start pêtli wykonuj¹cej odcienie szaroœci algorytmu. Czêœæ pierwsza wykonywania ca³ego algorytmu sepii
 
-movdqu xmm10, [rdi]								 ; pobranie 2 pikseli z tablicy bajtów obrazka  z rejestru rdi do xmm10, aby wykonaæ na nich operacje niezbêdne do wykonania algorytmu sepii 
+movdqu xmm10, [rdi]								 ; pobranie 4 pikseli z tablicy bajtów obrazka  z rejestru rdi do xmm10, aby wykonaæ na nich operacje niezbêdne do wykonania algorytmu sepii 
 
 add rdi, 16									     ; przesuniecie rejestru indeksowego o 16 pozycji do przodu, w celu pobrania nowych wartoœci z rejestru rdi
 
 sub rcx, 16										 ; przesuniecie rejestru zliczaczj¹vego o 16 pozycji do ty³u, aby nie wyjœæ poza  zakres tablicy 
 
-movdqu xmm9, [rdi]								 ;  pobranie kolejnych 2 pikseli z rejestru rdi do xmm9, aby wykonaæ na nich kolejne operacje niezbêdne do wykonania algorytmu sepii
+
+movdqu xmm9, [rdi]								 ;  pobranie kolejnych 4 pikseli z rejestru rdi do xmm9, aby wykonaæ na nich kolejne operacje niezbêdne do wykonania algorytmu sepii
 
 
-vinsertf128 ymm4,ymm4,xmm10,0					 ; przesuniecie 2 pikseli do górnej czêœci rejestru ymm4, aby póŸniej wykonaæ na nich operacje wektorowe SIMD na 4 pikselach
+vinsertf128 ymm4,ymm4,xmm10,0					 ; przesuniecie 4 pikseli do górnej czêœci rejestru ymm4, aby póŸniej wykonaæ na nich operacje wektorowe SIMD na 4 pikselach
 
-vinsertf128 ymm4,ymm4,xmm9,1					 ; przsuniecie 2 piskeli do dolnej czesci rejestru ymm4, aby pózniej wykonaæ operacje wektorowe SIMD na 4 pikselach
+vinsertf128 ymm4,ymm4,xmm9,1					 ; przsuniecie 4 piskeli do dolnej czesci rejestru ymm4, aby pózniej wykonaæ operacje wektorowe SIMD na 4 pikselach
 
-												 ; przetrzymywanie aktualnie 4 pikseli jednoczeœnie w rejestrze ymm4
+												 ; przetrzymywanie aktualnie 8 pikseli jednoczeœnie w rejestrze ymm4
           
-vmovaps ymm6, ymm4								 ; zapamietanie skladowych alpha 4 kolejnych pikseli w rejestrze ymm6, aby odpowiednio póŸniej przekazaæ wartoœci kana³u przezroczystoœci do przetworzonych pikseli
+vmovaps ymm6, ymm4								 ; zapamietanie skladowych alpha 8 kolejnych pikseli w rejestrze ymm6, aby odpowiednio póŸniej przekazaæ wartoœci kana³u przezroczystoœci do przetworzonych pikseli
 
 
-vpand ymm6, ymm6, ymm2							 ; maskowanie kana³u przezroczystoæi 4 kolejnych pikseli w rejestrze ymm6, aby otrzymaæ jedynie wartoœci skladówych piksela R,G,B
+vpand ymm6, ymm6, ymm2							 ; maskowanie kana³u przezroczystoæi 8 kolejnych pikseli w rejestrze ymm6, aby otrzymaæ jedynie wartoœci skladówych piksela R,G,B
 
 vmovaps ymm7,ymm4							     ; przepisanie 4 kolejnych pikseli bez kana³u przezroczystoœci do rejestru ymm7 w celu wyci¹gania z podanego rejestru odpowiednich sk³adowych piksela 
 
@@ -146,10 +165,8 @@ vpaddd ymm5, ymm4, ymm7		 					 ; zsumowanie rejestrów ymm4 i ymm7 do rejestru y
 
 vpaddd ymm5,ymm5, ymm8							 ; zsumowanie rejestrów ymm5 i ymm8 do rejestru ymm5. Uzyskujemy sumê kolory czerwonego i zielonego (R+G) oraz koloru niebieskiego (R+G+B). Mo¿na dziêki temu wykonaæ obliczyæ œredni¹ arytemetyczn¹ piksela.
 
-
 												
 vcvtdq2ps ymm7, ymm5						     ; zamiana wartoœci int rejestru ymm6 na float do rejestru ymm7 w celu  wykonania dzielenia wektorowego  dzielenie wartoœci 3 kolejnych skladowcyh pikseli przez wartosc sta³ej maski dzielnika 3 (divider_value), 
-
 												
 vdivps ymm7, ymm7, ymm3							 ; wykonanie dzielenia wektorowego w celu otrzymania œredniej arytmetycznej (R+G+B) / 3, dzielenie wektorowe rejestru  ymm7 przez rejestr sta³ego dzienika 3 (divider_value) do rejestru ymm7
 												 
@@ -165,36 +182,32 @@ vpor ymm7,ymm7,ymm5							     ; logiczna operacja OR na rejestrze ymm5 i ymm7 d
                                                  ; Wykonywana w celu ustalenia 2 pierwszych pozycji dla  pikseli
 
 vpslldq ymm5,ymm5, 1					         ; logiczne przesuniêcie rejestru ymm5 o 2 wartoœci szesnastkowo w celu wpisania wartoœci X wyjaœnionych powy¿ej na odpowiedni¹ pozycjê
-												
-										 
-
-												
+									
 
 vpor ymm7, ymm7, ymm5							 ; logiczna operacja OR na rejestrze ymm5 i ymm7 do rejestru ymm7, w celu ustalenia pozycji piksela na odpowiednim bicie
 												 ; Wykonywana w celu ustalenia 2 ostatnich pozycji dla  pikseli				
-						
-													
+																			
 												 ; przepisanie watosci kanalu alpha				
 vpor ymm7, ymm7, ymm6							 ; logiczny OR na rejestrze ymm7 i ymm5 w celu przepisanie do rejestru ymm7 wartoœci kana³u alpha z rejestru ymm6 na odpowiedni¹ pozycjê dla pikseli
 
-										
-
-vextractf128 xmm10,ymm7,1						 ; przepisanie dolnej czêœci rejestru ymm7 do rejestru xmm10 w celu wpisania wynikowych wartoœci do tablicy ( 2 piksele)
-
-movdqu [rdi], xmm10								 ; przesuniêcie wartoœci wynikowych pikseli z rejestru xmm10 do rejestru indeksowego rdi, gdzie s¹ one zapisywane do tablicy 
+sub rdi, 16									     ;  przesuniecie rejestru indeksowego o 16 pozycji do ty³u, w  celu umieszczenia pikseli do w tablicy obrazka na starszej pozycji tablicy
 
 
-vextractf128 xmm11, ymm7,0						 ; przepisanie górnej czêœci rejestru ymm7 do rejestru xmm11 w celu wpisania wynikowych wartoœci do tablicy ( 2 piksele)
+vextractf128 xmm9,ymm7,0						 ; przepisanie dolnej czêœci rejestru ymm7 do rejestru xmm10 w celu wpisania wynikowych wartoœci do tablicy ( 4 piksele)
 
-sub rdi, 16										 ; przesuniecie rejestru indeksowego o 16 pozycji do ty³u, w  celu umieszczenia pikseli do elementów tablicy obrazka znajduj¹cej siê o 16 elementów wczeœniej
+movdqu [rdi], xmm9								 ; przesuniêcie wartoœci wynikowych pikseli z rejestru xmm10 do rejestru indeksowego rdi, gdzie s¹ one zapisywane do tablicy 
 
-movdqu [rdi], xmm11								 ; przesuniêcie wartoœci wynikowych pikseli z rejestru xmm11 do rejestru indeksowego rdi, gdzie s¹ one zapisywane do obrazka
+add rdi, 16										  ; przesuniêcie rdi o 16 do przodu w celu umieszczenia pikseli  w tablicy obrazka na starszej pozycji tablicy
 
-add rdi, 32										 ; przesuniêcie rdi o 32, aby znajdowaæ siê na w³aœciwej pozycji obrazka w trakcie przetwarzania pikseli
+vextractf128 xmm10, ymm7,1						 ; przepisanie górnej czêœci rejestru ymm7 do rejestru xmm10 w celu wpisania wynikowych wartoœci do tablicy ( 4 piksele)
+
+movdqu [rdi], xmm10								 ; przesuniêcie wartoœci wynikowych pikseli z rejestru xmm10 do rejestru indeksowego rdi, gdzie s¹ one zapisywane do obrazka
+
+add rdi, 16										 ; przesuniêcie rdi o 16, aby znajdowaæ siê na w³aœciwej pozycji obrazka w trakcie przetwarzania pikseli
 
 sub rcx, 16										 ; odjêcie od indeksu zliczaj¹cejgo 16, aby nie wyjœæ poza zakres tablicy
 
-cmp rcx, 0										 ; sprawdzenie czy przekroczono rozmiar tablicy i zakoñczono zliczanie
+cmp rcx, 31										 ; sprawdzenie czy przekroczono rozmiar tablicy i zakoñczono zliczanie
 
 jle prepare										 ; je¿eli  zosta³ przekoroczny rozmiar tablicy przygotowujemy do wype³nienia obrazka efektem sepii
 
@@ -210,11 +223,9 @@ mov rcx, r8										 ; za³adowanie do rcx iloœci bajtów do przetworzenia
 
 sub rcx, r11									 ; odjêcie przesuniêcia (offsetu) zwi¹zanego z podzia³em na w¹tki z rejestru rcx poprzez odjêcie koñca przedzia³u zlicania z rejestru r11
 
-
 mov r12, 255									 ; za³adowanie do rejestru r12 wartoœci 255, aby sprawdzaæ czy nie przekroczono maksymalnej dozwolonej wartoœci piksela
 
 mov r13, r12								     ; zapamiêtanie wartoœci rejestru r12 do rejestru r13, w celu póŸniejszego wykorzystania rejestru r12 ( wartoœci 255)
-
               					     
 sub r13, r9									     ; odjêcie od rejestru 13 wartoœci spod rejestru r9. 255 - x, gdzie x to wartoœæ zadanej przez u¿ytkownika efektu wype³nienia. Wykorzystywana do sprawdzenia czy wartoœæ wype³nienia sepii nie przekracza 255
 
@@ -222,22 +233,39 @@ sub r13, r9			    						 ; kolejne odjêcie do rejestru r13 wartoœci spod rejestr
 
 cmp rax, r13	                                 ; porównanie rejestru rcx z r13 czy wartoœæ wype³nienia nie przekracza maksymalnej wartoœci 255
 
-ja max_red_t								     ; skok w przypadku przekroczenia maskymalnej wartoœci 255
+ja max_red_first								 ; skok w przypadku przekroczenia maskymalnej wartoœci 255
 
-
-add rax,r9										 ; je¿eli nie przekroczono mmaksymalnej wartoœci dodajemy wartoœæ wype³nienia do akumulatora raxd la czerwonej sk³adowej  piksela
+add rax,r9										 ; je¿eli nie przekroczono mmaksymalnej wartoœci dodajemy wartoœæ wype³nienia do akumulatora rax dla czerwonej sk³adowej  piksela
 
 add rax,r9										 ; drugi raz dodajemy do akumulatora wartoœæ wype³nienia, poniewa¿ wynika to z algorytmu
 
- 
-jmp continue_red	   							 ; skok bezwarunkowy do etykiety kontynuj¹cej wype³nienia pikseli, poprzez pobranie kolejnego piksela
+jmp tone_loop	   							     ; skok bezwarunkowy do etykiety kontynuj¹cej wype³nienia pikseli, poprzez pobranie kolejnego piksela
 
-max_red_t:				    					 ; etykieta w przypadku przekroczenia maskymalnej wartoœci 255
+max_red_first:				    				 ; etykieta w przypadku przekroczenia maskymalnej wartoœci 255
 
 mov rax, r12									 ; za³adowanie do  sk³adowej czerwonej  piksela wartoœci maksymalnej 255, poniewa¿ wspó³czynnik wype³nienia przekroczy³ maksymaln¹ wartoœæ 255
+											    
+tone_loop:										 ; pêtla wykonuj¹ca  wype³nienia piksela dla obrazka efektem Sepii i jego kontunuacja z pocz¹tkowej pêtli
 
+mov al, [rdi]									 ; przepisanie wartoœci sk³¹dowej niebieskiej piksela do akumulatora
 
-toneloop:									     ; pêtla wykonuj¹ca  wype³nienia piksela dla obrazka efektem Sepii i jego kontunuacja z pocz¹tkowej pêtli
+;mov r13, r12								     ; przesuniêcie do r13 wartoœci 255, aby porównaæ j¹ z wartoœci¹
+
+cmp rax, r14									 ; porównanie warotœci sk³adowej niebieskiej piksela tablicy obrazka z wartoœci¹ parametru g³êbi obrazka
+
+jle min_blue									 ; je¿eli wartoœæ sk³adowej niebieskiej jest mniejsza ni¿ parametru g³êbii to ustaw wartoœæ sk³adowej na 0 poprzez skok do etykiety min_blue
+
+sub rax, r14									 ; wartoœæ sk³adowej jest wiêksza ni¿ parametru g³êbii, nowa wartoœæ sk³¹dowej niebieskiej piksela to jej wartoœæ pomniejszona o podany parametr g³êbi. Otrzmujemy j¹ poprzez odjêcie jej od parametru g³ebi
+
+jmp continue_blue								 ; skok do etykiety  ustawiaj¹cej obliczon¹ wartoœæ sk³adowej niebieskiej w tablicy obrazka oraz pobieraj¹ca now¹ wartoœæ do akumulatora do wykonania przez pozosta³e instrukcje procedury
+
+min_blue:										 ; etykieta min_blue ustawiaj¹ca na 0 wartoœæ akumualtora, która wynika z aglorytmu g³êbii. Nastêpnie zostanie przypisana jako wartoœæ nowej sk³adowej niebieskiej obrazka 
+
+xor rax, rax									 ; operacja logiczna XOR, aby wyzerowaæ akumulator i uzyskaæ wartoœæ 0 wynikaj¹cej z algorytmu
+
+continue_blue:								     ; etykieta zajmuj¹ca siê ustawianiem warotœci sk³¹dowych niebieskich piksela dla obrazka, aby otrzymaæ efekt g³êbii Sepii
+
+mov [rdi], al									 ; przepisanie wartoœci przetworzonej sk³adowej niebieskiej piksela z akumulatora do tablicy obrazka
 
 mov al, [rdi+1]								     ; przesuniêcie do akumulatora al wartoœci obrazka
 
@@ -255,12 +283,11 @@ jmp continue_green								 ; skok do etykiety kontynuj¹cej wype³nianie sk³adowej
 
 max_green:										 ; etykieta wpisuj¹ca maksymaln¹ wartoœæ 255 dla koloru zielonego, poniewa¿ przekroczy³ maksymaln¹ dopuszczaln¹ wartoœæ
 
-mov rax,r12										 ; wpisujemy do  akumulatora rax wartoœæ 255  z rejestru r12 dla sk³adowje zielonej piksela, wynika to z algorytmu
+mov rax,r12										 ; wpisujemy do  akumulatora rax wartoœæ 255  z rejestru r12 dla sk³adowej zielonej piksela, wynika to z algorytmu
 
 continue_green:									 ; etykieta do kontynowania efektu wype³niania i wsadzenia wartoœci obliczonego wype³nienia do tablicy
 
 mov [rdi+1],al									 ; przesuniêcia wartoœci akumulatora al do adresu obrazka, gdzie akumulator zawiera obliczon¹ wartoœæ wype³nienia
-
 
 mov al,[rdi+2]				    				 ; pobranie kolejnej wartoœci piksela do akumulatora al, aby wykonaæ obliczanie algorytmu dla dalszych pikseli
 
@@ -294,13 +321,23 @@ add rdi, 4									     ; przesuniêcie o 4 bity ( 1 piksel) do przodu wartoœci  
 
 sub rcx, 4									     ; odjêcie do wartoœci rejestru zliczaj¹cego 4 ( 1 piksel), aby nie wyjœæ poza zareks tablicy
 
-cmp rcx, 0									     ; sprawdzenie czy zakoñczono zliczanie
+cmp rcx, 3									     ; sprawdzenie czy zakoñczono zliczanie
 
 jle koniec									     ; je¿eli wartoœæ poni¿ej zera albo równa zeru skocz do etykiety koniec, zakoñczono zliczanie dla drugiej czêœci algorytmu
 
-jmp toneloop									 ; skok bezwarunkowy do pêtli zewnêtrznej wykonuj¹cej g³ówny proces wype³niania obrazka, poniewa¿ nie zakoñczono przekszta³cania obrazka 
+jmp tone_loop 									 ; skok bezwarunkowy do pêtli zewnêtrznej wykonuj¹cej g³ówny proces wype³niania obrazka, poniewa¿ nie zakoñczono przekszta³cania obrazka 
   
 koniec:											 ; etykieta, w której koñczymy wykonywanie naszego przetwarzania obrazka 
+
+mov rcx, r10									 ; przywrócenie pocz¹tkowej wartoœci adresu tablicy obrazka do rejestru zliczeniowego, aby nie naraziæ siê na nieodpowiedni odczyt wartoœci z rejestru zliczeniowego przez jêzyk wysokiego poziomu
+
+												 ; zakoñczenie algorytmu i powrócenie wartoœci stanu stosu
+pop rbx											 ; odczytanie rejestru rbx ze stosu 
+pop r14											 ; odczytanie rejestru r14 ze stosu
+pop r13											 ; odczytanie rejestru r13 ze stosu
+pop r12											 ; odczytanie rejestru r12 ze stosu
+pop rdi											 ; odczytanie rejestru rdi ze stosu
+pop rbp											 ; odczytanie rejestru rbp ze stosu
 
 ret											     ; powrót z  g³ównej procedury Sepia
 
