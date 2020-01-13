@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SepiaAsmDll", "SepiaAsmDll\SepiaAsmDll.vcxproj", "{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SepiaGUI", "SepiaGUI\SepiaGUI.csproj", "{05F109D3-296C-4A4A-B864-4B76A9674E2D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD} = {1709F807-E6AC-4BF3-B513-DE4900C0B4CD}
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C} = {0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SepiaDll", "SepiaDll\SepiaDll.csproj", "{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Debug|x64.ActiveCfg = Debug|x64
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Debug|x64.Build.0 = Debug|x64
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Debug|x86.ActiveCfg = Debug|Win32
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Debug|x86.Build.0 = Debug|Win32
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Release|Any CPU.ActiveCfg = Release|x64
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Release|Any CPU.Build.0 = Release|x64
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Release|x64.ActiveCfg = Release|x64
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Release|x64.Build.0 = Release|x64
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Release|x86.ActiveCfg = Release|Win32
+		{0ED618A5-AE1E-4CCD-A5ED-3E7FDDEE3E8C}.Release|x86.Build.0 = Release|Win32
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Debug|x64.ActiveCfg = Debug|x64
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Debug|x64.Build.0 = Debug|x64
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Debug|x86.Build.0 = Debug|Any CPU
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Release|Any CPU.ActiveCfg = Release|x64
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Release|Any CPU.Build.0 = Release|x64
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Release|x64.ActiveCfg = Release|x64
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Release|x64.Build.0 = Release|x64
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Release|x86.ActiveCfg = Release|Any CPU
+		{05F109D3-296C-4A4A-B864-4B76A9674E2D}.Release|x86.Build.0 = Release|Any CPU
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Debug|x64.ActiveCfg = Debug|x64
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Debug|x64.Build.0 = Debug|x64
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Debug|x86.Build.0 = Debug|Any CPU
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Release|Any CPU.ActiveCfg = Release|x64
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Release|Any CPU.Build.0 = Release|x64
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Release|x64.ActiveCfg = Release|x64
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Release|x64.Build.0 = Release|x64
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{1709F807-E6AC-4BF3-B513-DE4900C0B4CD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1458639-43E9-4289-B59F-60AD2EB44491}
+	EndGlobalSection
+EndGlobal
